@@ -2,7 +2,7 @@
 
 A word-guesssing (Hangman) solver using heuritic (letter frequency) and bayesain appoarches
 
-A fork of https://github.com/Xilillusion/Wordle-Solvers_Bayesian-Minimax-Heuristic.git 
+Similar to https://github.com/Xilillusion/Wordle-Solvers_Bayesian-Minimax-Heuristic.git 
 
 ### Solver Methods ###
 - solve_dumb: return letters based on a fixed order (the overall frequency of alphabets)
