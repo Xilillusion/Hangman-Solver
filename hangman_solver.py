@@ -5,7 +5,9 @@ def load_dictionary(file_path):
     with open(file_path, 'r') as file:
         return list(file.read().splitlines())
 
-def init_search_space(word_list, length):
+def get_search_space_range(word_list):
+    # Find the start and end indices for words of each length
+    length_indices = {}
     def binary_search(length, find_first=True):
         low, high = 0, len(word_list) - 1
         result = -1
@@ -26,13 +28,12 @@ def init_search_space(word_list, length):
                     low = mid + 1
 
         return result
-    start = binary_search(length, True)
-    end = binary_search(length, False)
+    max_length = len(word_list[-1])
 
-    if start == -1 or end == -1:
-        return set()  # No words of the target length found
-    
-    return set(word_list[start:end + 1])
+    for i in range(max_length + 1):
+        length_indices[i] = (binary_search(i, True), binary_search(i, False)+1)
+
+    return length_indices
 
 class Solver:
     def __init__(self, search_space, search_chars="abcdefghijklmnopqrstuvwxyz"):
@@ -176,7 +177,7 @@ def plot_stats(stats, file_name):
     plt.show()
 
 
-def main(file_path: str, methods: list[str]):
+def main(file_path: str, methods: list[str], body_parts: int = 6):
     import tqdm
 
     word_list = load_dictionary(file_path)
@@ -202,17 +203,18 @@ def main(file_path: str, methods: list[str]):
             continue
 
         total = 0
-        curr_word_len = 0
-        search_space = set()
+        death = 0
+        word_len = 0
+        ranges = get_search_space_range(word_list)
 
         progress_bar = tqdm.tqdm(word_list, desc=f"Testing {method} method")
         for w in progress_bar:
             game = HangmanGame(w)
 
             # Initialize search space for the word length
-            if len(w) != curr_word_len:
-                curr_word_len = len(w)
-                search_space = init_search_space(word_list, curr_word_len)
+            if len(w) != word_len:
+                word_len = len(w)
+                search_space = word_list[ranges[word_len][0]:ranges[word_len][1]]
             solver.reset(search_space)
 
             # Game simulation
@@ -222,20 +224,22 @@ def main(file_path: str, methods: list[str]):
                 correct, pattern = game.respond(guess)
                 if not correct:
                     incorrect += 1
+                    if incorrect == body_parts:
+                        death += 1
 
                 solver.respond_pattern(guess, pattern)
 
             # Record statistics
-            total += incorrect
             stats[method].append(incorrect)
-            progress_bar.set_postfix(avg=f"{total / (progress_bar.n + 1):.2f}")
+            total += incorrect
+            progress_bar.set_postfix(avg=f"{total / (progress_bar.n + 1):.2f}", death=f"{round(death / (progress_bar.n + 1) * 100)}%")
     
     return stats
 
 if __name__ == "__main__":
-    file_name = 'oxford5000.txt'
+    #file_name = 'oxford5000.txt'
     #file_name = 'oxford3000.txt'
-    #file_name = 'wordle.txt'
+    file_name = 'wordle.txt'
     methods = ['dumb', 'frequency', 'unique', 'bayesian']
 
     stats = main(f"dictionary/{file_name}", methods)

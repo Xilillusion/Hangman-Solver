@@ -10,33 +10,34 @@ A Hangman (a word-guesssing game) solver using heuritic (letter frequency) and b
 - Bayesian `solve_baye`: return letters based on the best entropy and occurrence
 
 ## Performance ##
-### Wordle word list
-| Method      | Average Fails | Time Consumption         |
-| ----------- | ---------------------------- | -------------- |
-| Dumb    | 12.58                         | 2400 it/s              |
-| Frequncy   | 3.90                       | 650 it/s         |
-| Unique | 3.88                       | 650 it/s         |
-| Bayesian  | 3.82                       | 30 it/s         |
+### Wordle word list ###
+| Method | Average Fails | Death Rate | Time Consumption |
+| ------ | ------------- | ---------- | ---------------- |
+| Dumb | 12.58 | 99% | 2400 it/s |
+| Frequncy | 3.90 | 21% | 650 it/s |
+| Unique | 3.88 | 21% | 650 it/s |
+| Bayesian | 3.82 | 21% | 30 it/s |
 
-*Average Fails: The average times that it guesses an incorrect letter
-
-*Reference only. Average fails may vary due to the usage of set; time consumption varies on the devices
+Note
+- Average Fails: The average times that it guesses an incorrect letter
+- Death Rate: In a traditional Hangman game, 6 fails indicates a death
+- Reference only. Numbers may vary due to the usage of unordered set
 
 ### Oxford 3000 ###
-| Method      | Average Fails | Time Consumption        |
-| ----------- | ---------------------------- | -------------- |
-| Dumb    | 11.39                         | 5700 it/s              |
-| Frequncy   | 2.17                       | 2700 it/s         |
-| Unique | 2.33                       | 1600 it/s         |
-| Bayesian  | 2.22                       | 150 it/s         |
+| Method | Average Fails | Death Rate | Time Consumption |
+| ------ | ------------- | ---------- | ---------------- |
+| Dumb | 11.39 | 95% | 5700 it/s |
+| Frequncy | 2.17 | 8% | 2700 it/s |
+| Unique | 2.33 | 8% | 1600 it/s |
+| Bayesian | 2.22 | 8% | 150 it/s |
 
 ### Oxford 5000
-| Method      | Average Fails | Time Consumption        |
-| ----------- | ---------------------------- | -------------- |
-| Dumb    | 12.58                         | 5500 it/s              |
-| Frequncy   | 2.17                       | 1900 it/s         |
-| Unique | 2.08                       | 1200 it/s         |
-| Bayesian  | 2.08                       | 100 it/s         |
+| Method | Average Fails | Death Rate | Time Consumption |
+| ------ | ------------- | ---------- | ---------------- |
+| Dumb | 11.11 | 90% | 5500 it/s |
+| Frequncy | 2.10 | 7% | 1900 it/s |
+| Unique | 2.08 | 7% | 1200 it/s |
+| Bayesian | 2.07 | 7% | 100 it/s |
 
 ## Output ##
 ### Wordle ###
