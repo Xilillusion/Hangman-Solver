@@ -1,6 +1,6 @@
 # Hangman Solver #
 
-A Hangman (a word-guesssing game) solver using heuritic (letter frequency) and bayesain appoarches
+A Hangman (a word-guesssing game) solver using heuritic (letter frequency) and Bayesain appoarches
 
 ## Methods ##
 `Solver` class
@@ -40,6 +40,7 @@ Note
 | Bayesian | 2.07 | 7% | 100 it/s |
 
 ## Output ##
+Based on different dictionaries
 ### Wordle ###
 <img width="640" height="480" alt="Figure_1" src="https://github.com/user-attachments/assets/960a362e-203e-4dbf-a48e-85e2960578b5" />
 
@@ -48,3 +49,12 @@ Note
 
 ### Oxford5000 ###
 <img width="640" height="480" alt="Figure_1" src="https://github.com/user-attachments/assets/800e133b-edd3-40f9-9312-bd2043086114" />
+
+## Libraries ##
+- tqdm
+- matplotlib
+- BeautifulSoup (for `crawler.py`)
+
+## References ##
+1. `wordle.txt`: 2308 Wordle words from [Silicon Valley Daily](https://svdaily.com/2022/04/15/all-of-the-words-used-in-ny-times-wordle-game/ )
+2. `oxford3000.txt` and `oxford5000.txt` crawled from [Oxford Learner's Dictionaries](https://www.oxfordlearnersdictionaries.com/wordlists/oxford3000-5000 )
