@@ -19,6 +19,7 @@ A Hangman (a word-guesssing game) solver using heuritic (letter frequency) and b
 | Bayesian  | ~3.82                       | 30 it/s         |
 
 *Average Fails: The average times that it guesses an incorrect letter
+
 *Reference only. Average fails may vary due to the usage of set; time consumption varies on the devices
 
 ### Oxford 3000 ###
