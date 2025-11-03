@@ -11,15 +11,16 @@ A Hangman (a word-guesssing game) solver using heuritic (letter frequency) and b
 
 ## Performance ##
 ### Wordle word list
-| Method      | Average Fails | Time Consumption (Reference only)        |
+| Method      | Average Fails | Time Consumption         |
 | ----------- | ---------------------------- | -------------- |
 | Dumb    | ~12.58                         | 2400 it/s              |
 | Frequncy   | ~3.90                       | 650 it/s         |
 | Unique | ~3.88                       | 650 it/s         |
 | Bayesian  | ~3.82                       | 30 it/s         |
+Reference only, average fails may varies due to the usage of set; time consumption varies on the devices
 
 ### Oxford 3000 ###
-| Method      | Average Fails | Time Consumption (Reference only)        |
+| Method      | Average Fails | Time Consumption        |
 | ----------- | ---------------------------- | -------------- |
 | Dumb    | ~11.39                         | 5700 it/s              |
 | Frequncy   | ~2.17                       | 2700 it/s         |
@@ -27,7 +28,7 @@ A Hangman (a word-guesssing game) solver using heuritic (letter frequency) and b
 | Bayesian  | ~2.22                       | 150 it/s         |
 
 ### Oxford 5000
-| Method      | Average Fails | Time Consumption (Reference only)        |
+| Method      | Average Fails | Time Consumption        |
 | ----------- | ---------------------------- | -------------- |
 | Dumb    | ~12.58                         | 5500 it/s              |
 | Frequncy   | ~2.17                       | 1900 it/s         |
