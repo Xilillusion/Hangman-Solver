@@ -13,10 +13,10 @@ A Hangman (a word-guesssing game) solver using heuritic (letter frequency) and b
 ### Wordle word list
 | Method      | Average Fails | Time Consumption         |
 | ----------- | ---------------------------- | -------------- |
-| Dumb    | ~12.58                         | 2400 it/s              |
-| Frequncy   | ~3.90                       | 650 it/s         |
-| Unique | ~3.88                       | 650 it/s         |
-| Bayesian  | ~3.82                       | 30 it/s         |
+| Dumb    | 12.58                         | 2400 it/s              |
+| Frequncy   | 3.90                       | 650 it/s         |
+| Unique | 3.88                       | 650 it/s         |
+| Bayesian  | 3.82                       | 30 it/s         |
 
 *Average Fails: The average times that it guesses an incorrect letter
 
@@ -25,18 +25,18 @@ A Hangman (a word-guesssing game) solver using heuritic (letter frequency) and b
 ### Oxford 3000 ###
 | Method      | Average Fails | Time Consumption        |
 | ----------- | ---------------------------- | -------------- |
-| Dumb    | ~11.39                         | 5700 it/s              |
-| Frequncy   | ~2.17                       | 2700 it/s         |
-| Unique | ~2.33                       | 1600 it/s         |
-| Bayesian  | ~2.22                       | 150 it/s         |
+| Dumb    | 11.39                         | 5700 it/s              |
+| Frequncy   | 2.17                       | 2700 it/s         |
+| Unique | 2.33                       | 1600 it/s         |
+| Bayesian  | 2.22                       | 150 it/s         |
 
 ### Oxford 5000
 | Method      | Average Fails | Time Consumption        |
 | ----------- | ---------------------------- | -------------- |
-| Dumb    | ~12.58                         | 5500 it/s              |
-| Frequncy   | ~2.17                       | 1900 it/s         |
-| Unique | ~2.08                       | 1200 it/s         |
-| Bayesian  | ~2.08                       | 100 it/s         |
+| Dumb    | 12.58                         | 5500 it/s              |
+| Frequncy   | 2.17                       | 1900 it/s         |
+| Unique | 2.08                       | 1200 it/s         |
+| Bayesian  | 2.08                       | 100 it/s         |
 
 ## Output ##
 ### Wordle ###
