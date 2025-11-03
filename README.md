@@ -47,3 +47,12 @@ A Hangman (a word-guesssing game) solver using heuritic (letter frequency) and B
 
 ### Oxford5000 ###
 <img width="640" height="480" alt="Figure_1" src="https://github.com/user-attachments/assets/800e133b-edd3-40f9-9312-bd2043086114" />
+
+## Libraries ##
+- BeautifulSoup
+- tqdm
+- matplotlib
+
+## References ##
+1. `wordle.txt`: 2308 Wordle words from [Silicon Valley Daily](https://svdaily.com/2022/04/15/all-of-the-words-used-in-ny-times-wordle-game/ )
+2. `oxford3000.txt` and `oxford5000` crawled from [Oxford Learner's Dictionaries](https://www.oxfordlearnersdictionaries.com/wordlists/oxford3000-5000 )
