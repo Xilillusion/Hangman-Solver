@@ -37,8 +37,8 @@ Note
 | Method | Average Fails | Death Rate | Time Consumption |
 | ------ | ------------- | ---------- | ---------------- |
 | Dumb | 11.39 | 95% | 5700 it/s |
-| Frequncy | 2.17 | 8% | 2700 it/s |
-| Unique | 2.33 | 8% | 1600 it/s |
+| Frequncy | 2.30 | 8% | 2700 it/s |
+| Unique | 2.30 | 8% | 1600 it/s |
 | Bayesian | 2.22 | 8% | 150 it/s |
 
 ### Oxford 5000
