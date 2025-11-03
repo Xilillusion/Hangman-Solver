@@ -1,6 +1,6 @@
 # Hangman Solver #
 
-A Hangman (a word-guesssing game) solver using heuritic (letter frequency) and bayesain appoarches
+A Hangman (a word-guesssing game) solver using heuritic (letter frequency) and Bayesain appoarches
 
 ## Methods ##
 `Solver` class
