@@ -17,6 +17,7 @@ A Hangman (a word-guesssing game) solver using heuritic (letter frequency) and b
 | Frequncy   | ~3.90                       | 650 it/s         |
 | Unique | ~3.88                       | 650 it/s         |
 | Bayesian  | ~3.82                       | 30 it/s         |
+
 Reference only, average fails may varies due to the usage of set; time consumption varies on the devices
 
 ### Oxford 3000 ###
