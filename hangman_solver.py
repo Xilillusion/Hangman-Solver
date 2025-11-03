@@ -1,32 +1,59 @@
 from collections import defaultdict
-import tqdm
 from math import log2
 
 def load_dictionary(file_path):
     with open(file_path, 'r') as file:
         return list(file.read().splitlines())
 
-class Solver:
-    def __init__(self,  word_list):
-        self.length = len(word_list[0])
-        self.pattern = [None] * self.length
-        self.word_list = word_list
-        self.available_chars = set("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+def init_search_space(word_list, length):
+    def binary_search(length, find_first=True):
+        low, high = 0, len(word_list) - 1
+        result = -1
 
-    def reset(self, word_list):
-        self.pattern = [None] * self.length
-        self.word_list = list(word_list)
-        self.available_chars = set("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        while low <= high:
+            mid = (low + high) // 2
+            l = len(word_list[mid])
+
+            if l < length:
+                low = mid + 1
+            elif l > length:
+                high = mid - 1
+            else:  # l == length
+                result = mid
+                if find_first:
+                    high = mid - 1
+                else:
+                    low = mid + 1
+
+        return result
+    start = binary_search(length, True)
+    end = binary_search(length, False)
+
+    if start == -1 or end == -1:
+        return set()  # No words of the target length found
     
+    return set(word_list[start:end + 1])
+
+class Solver:
+    def __init__(self, search_space, search_chars="abcdefghijklmnopqrstuvwxyz"):
+        self.search_chars = set(search_chars)
+        self.reset(search_space)
+        
+    def reset(self, search_space):
+        self.search_space = search_space
+        self.length = len(next(iter(search_space), ""))
+        self.pattern = [None] * self.length
+        self.available_chars = self.search_chars.copy()
+
     def respond_pattern(self, char, new_pattern):
         self.available_chars.discard(char)
-        new_word_list = []
+        new_search_space = set()
 
         # Incorrect guess
         if self.pattern == new_pattern:
-            for w in self.word_list:
+            for w in self.search_space:
                 if char not in w:
-                    new_word_list.append(w)
+                    new_search_space.add(w)
         # Correct guess
         else:
             pos = []
@@ -35,28 +62,28 @@ class Solver:
                     self.pattern[i] = char
                     pos.append(i)
             # Filter words matching the new pattern
-            for w in self.word_list:
+            for w in self.search_space:
                 match = True
                 for i in pos:
                     if w[i] != char:
                         match = False
                         break
                 if match:
-                    new_word_list.append(w)
+                    new_search_space.add(w)
 
-        self.word_list = new_word_list
-    
-    def solve_dumb(self, order="EAROTILSNUCYHDPGMBFKWVXZQJ"):
-        # Choose character in a given order
+        self.search_space = new_search_space
+
+    def solve_dumb(self, order="earotilsnucyhdpgmbfkxwvzqj '-"):
+        # Choose character in dictionary frequency order
         for c in order:
             if c in self.available_chars:
                 return c
-        return None
+        return self.available_chars[0]
 
     def solve_freq(self):
         # Choose character that commonly appears in most words
         freq_count = defaultdict(int)
-        for w in self.word_list:
+        for w in self.search_space:
             for c in w:
                 if c in self.available_chars:
                     freq_count[c] += 1
@@ -65,7 +92,7 @@ class Solver:
     def solve_uniq(self):
         # Choose character that uniquely appears in most words
         unique_count = defaultdict(int)
-        for w in self.word_list:
+        for w in self.search_space:
             seen = set()
             for i, c in enumerate(w):
                 if self.pattern[i] is None and c not in seen and c in self.available_chars:
@@ -79,13 +106,13 @@ class Solver:
         best_entropy = -1.0
         best_occurrence = -1
 
-        total_words = len(self.word_list)
+        total_words = len(self.search_space)
 
         for char in self.available_chars:
             pattern_count = defaultdict(int)
             occurrence_count = 0
 
-            for word in self.word_list:
+            for word in self.search_space:
                 pattern = list(self.pattern)
                 found = False
 
@@ -114,6 +141,7 @@ class Solver:
 
         return best_char
 
+
 class HangmanGame:
     def __init__(self, word):
         self.word = word
@@ -130,29 +158,36 @@ class HangmanGame:
     def is_solved(self):
         return all(c is not None for c in self.pattern)
 
-def train_dumb(word_list):
-    # Train a dumb solver by letter frequency in dataset
-    freq_count = defaultdict(int)
-    unique_count = defaultdict(int)
-    for w in word_list:
-        seen = set()
-        for c in w:
-            freq_count[c] += 1
-            if c not in seen:
-                unique_count[c] += 1
-                seen.add(c)
-    print("Most common letters:", ''.join(sorted(freq_count, key=freq_count.get, reverse=True)))
-    print("Most unique letters:", ''.join(sorted(unique_count, key=unique_count.get, reverse=True)))
 
-if __name__ == "__main__":
-    word_length = 5
+def plot_stats(stats, file_name):
+    # Visualize the statistics
+    import matplotlib.pyplot as plt
+    from collections import Counter
 
-    word_list = load_dictionary(f'words{word_length}.txt')
-    stats = {}
+    for method, guesses in stats.items():
+        freq = Counter(guesses)
+        x = sorted(freq.keys())
+        y = [freq[i] for i in x]
+        plt.plot(x, y, marker='o', label=method, alpha=0.7)
+    plt.xlabel("Number of Incorrect Guesses")
+    plt.ylabel("Frequency")
+    plt.title(f"Hangman Solver Performance on {file_name}")
+    plt.legend()
+    plt.show()
 
-    for method in ['dumb', 'frequency', 'unique', 'bayesian']:
-        # Reset solver for each method
+
+def main(file_path: str, methods: list[str]):
+    import tqdm
+
+    word_list = load_dictionary(file_path)
+    if 'oxford' in file_path:
+        # Oxford words may contain apostrophes and hyphens
+        solver = Solver(word_list, search_chars="abcdefghijklmnopqrstuvwxyz '-")
+    else:
         solver = Solver(word_list)
+
+    stats = {}
+    for method in methods:
         stats[method] = []
 
         if method == 'dumb':
@@ -167,12 +202,20 @@ if __name__ == "__main__":
             continue
 
         total = 0
+        curr_word_len = 0
+        search_space = set()
+
         progress_bar = tqdm.tqdm(word_list, desc=f"Testing {method} method")
-        
         for w in progress_bar:
             game = HangmanGame(w)
-            solver.reset(word_list)
 
+            # Initialize search space for the word length
+            if len(w) != curr_word_len:
+                curr_word_len = len(w)
+                search_space = init_search_space(word_list, curr_word_len)
+            solver.reset(search_space)
+
+            # Game simulation
             incorrect = 0
             while not game.is_solved():
                 guess = solver_method()
@@ -182,21 +225,18 @@ if __name__ == "__main__":
 
                 solver.respond_pattern(guess, pattern)
 
+            # Record statistics
             total += incorrect
             stats[method].append(incorrect)
             progress_bar.set_postfix(avg=f"{total / (progress_bar.n + 1):.2f}")
     
-    
-    import matplotlib.pyplot as plt
-    from collections import Counter
+    return stats
 
-    for method, guesses in stats.items():
-        freq = Counter(guesses)
-        x = sorted(freq.keys())
-        y = [freq[i] for i in x]
-        plt.plot(x, y, marker='o', label=method, alpha=0.7)
-    plt.xlabel("Number of Incorrect Guesses")
-    plt.ylabel("Frequency")
-    plt.title("Hangman Solver Performance")
-    plt.legend()
-    plt.show()
+if __name__ == "__main__":
+    file_name = 'oxford5000.txt'
+    #file_name = 'oxford3000.txt'
+    #file_name = 'wordle.txt'
+    methods = ['dumb', 'frequency', 'unique', 'bayesian']
+
+    stats = main(f"dictionary/{file_name}", methods)
+    plot_stats(stats, file_name)
