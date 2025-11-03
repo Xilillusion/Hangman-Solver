@@ -11,7 +11,7 @@ A Hangman (a word-guesssing game) solver using heuritic (letter frequency) and B
 
 ## Performance ##
 ### Wordle word list
-| Method      | Average Fails | Time Consumption         |
+| Method      | *Average Fails | *Time Consumption         |
 | ----------- | ---------------------------- | -------------- |
 | Dumb    | 12.58                         | 2400 it/s              |
 | Frequncy   | 3.90                       | 650 it/s         |
