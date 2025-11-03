@@ -39,6 +39,7 @@ A Hangman (a word-guesssing game) solver using heuritic (letter frequency) and B
 | Bayesian  | 2.08                       | 100 it/s         |
 
 ## Output ##
+Based on different dictionaries
 ### Wordle ###
 <img width="640" height="480" alt="Figure_1" src="https://github.com/user-attachments/assets/960a362e-203e-4dbf-a48e-85e2960578b5" />
 
