@@ -1,8 +1,6 @@
 # Hangman Solver #
 
-A word-guesssing (Hangman) solver using heuritic (letter frequency) and bayesain appoarches
-
-Similar to https://github.com/Xilillusion/Wordle-Solvers_Bayesian-Minimax-Heuristic.git 
+A Hangman (a word-guesssing game) solver using heuritic (letter frequency) and bayesain appoarches
 
 ## Methods ##
 Solver class
