@@ -42,3 +42,6 @@ Solver class
 
 ### Oxford3000 ###
 <img width="640" height="480" alt="Figure_1" src="https://github.com/user-attachments/assets/17d9bccf-4b49-4f22-8e0b-eea71f5e69f7" />
+
+### Oxford5000 ###
+<img width="640" height="480" alt="Figure_1" src="https://github.com/user-attachments/assets/800e133b-edd3-40f9-9312-bd2043086114" />
