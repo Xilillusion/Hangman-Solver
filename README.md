@@ -10,6 +10,7 @@ A Hangman (a word-guesssing game) solver using heuritic (letter frequency) and B
 - Bayesian `solve_baye`: return letters based on the best entropy and occurrence
 
 ## Files ##
+```plaintext
 ├── hangman_solver.py  Solver for Hangman
 ├── library
 │   ├── wordle.txt     A word list from Wordle; 2309 5-chars words
