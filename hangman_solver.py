@@ -81,7 +81,7 @@ class Solver:
 
         total_words = len(self.word_list)
 
-        for char in sorted(self.available_chars):
+        for char in self.available_chars:
             pattern_count = defaultdict(int)
             occurrence_count = 0
 
