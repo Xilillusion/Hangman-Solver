@@ -3,7 +3,7 @@
 A Hangman (a word-guesssing game) solver using heuritic (letter frequency) and bayesain appoarches
 
 ## Methods ##
-Solver class
+`Solver` class
 - Dumb `solve_dumb`: return letters based on a fixed order
 - Freqeuncy `solve_freq`: return letters based on the frequency in the dictionary
 - Unique `solve_uniq`: return letters based on the frequency in the dictionary, count only once in each word
