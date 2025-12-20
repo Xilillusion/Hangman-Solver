@@ -79,10 +79,12 @@ class Solver:
         for c in order:
             if c in self.available_chars:
                 return c
-        return self.available_chars[0]
 
     def solve_freq(self):
         # Choose character that commonly appears in most words
+        if not self.search_space:
+            return self.solve_dumb()
+        
         freq_count = defaultdict(int)
         for w in self.search_space:
             for c in w:
@@ -92,6 +94,9 @@ class Solver:
 
     def solve_uniq(self):
         # Choose character that uniquely appears in most words
+        if not self.search_space:
+            return self.solve_dumb()
+        
         unique_count = defaultdict(int)
         for w in self.search_space:
             seen = set()
@@ -103,6 +108,9 @@ class Solver:
         return max(unique_count, key=unique_count.get)
     
     def solve_baye(self):
+        if not self.search_space:
+            return self.solve_dumb()
+        
         best_char = None
         best_entropy = -1.0
         best_occurrence = -1
@@ -236,11 +244,50 @@ def main(file_path: str, methods: list[str], body_parts: int = 6):
     
     return stats
 
+def play(filename, method='bayesian'):
+    # Play function for manual testing
+    word_list = load_dictionary(f'dictionary/{filename}')
+    indices = get_search_space_range(word_list)
+
+    is_continue = True
+    while is_continue:
+        user_input = input("Enter the length of the word: ")
+        print("(use '_' for unknown letters)")
+        word_length = int(user_input)
+        solver = Solver(word_list[indices[word_length][0]:indices[word_length][1]])
+
+        if method == 'dumb':
+            solver_method = solver.solve_dumb
+        elif method == 'frequency':
+            solver_method = solver.solve_freq
+        elif method == 'unique':
+            solver_method = solver.solve_uniq
+        elif method == 'bayesian':
+            solver_method = solver.solve_baye
+
+        is_solved = False
+        while not is_solved:
+            guess = solver_method()
+            print(f"Solver guesses: {guess}\t\tSearch space left: {len(solver.search_space)}")
+
+            is_valid = False
+            while not is_valid:
+                user_input = input("Enter the current pattern: ")
+                pattern = [c if c != '_' else None for c in user_input.strip().lower()]
+                is_valid = len(pattern) == word_length
+            
+            solver.respond_pattern(guess, pattern)
+            is_solved = all(c is not None for c in pattern)
+    
+        user_input = input("Do you want to play again? (y/n): ").strip().lower()
+        is_continue = user_input == 'y'
+
 if __name__ == "__main__":
     #file_name = 'oxford5000.txt'
-    #file_name = 'oxford3000.txt'
-    file_name = 'wordle.txt'
-    methods = ['dumb', 'frequency', 'unique', 'bayesian']
+    file_name = 'oxford3000.txt'
+    #file_name = 'wordle.txt'
 
-    stats = main(f"dictionary/{file_name}", methods)
-    plot_stats(stats, file_name)
+    #stats = main(f"dictionary/{file_name}", ['dumb', 'frequency', 'unique', 'bayesian'])
+    #plot_stats(stats, file_name)
+
+    play(file_name, method='bayesian')
