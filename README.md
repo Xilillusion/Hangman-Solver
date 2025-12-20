@@ -9,6 +9,16 @@ A Hangman (a word-guesssing game) solver using heuritic (letter frequency) and B
 - Unique `solve_uniq`: return letters based on the frequency in the dictionary, count only once in each word
 - Bayesian `solve_baye`: return letters based on the best entropy and occurrence
 
+## Files ##
+```plaintext
+├── hangman_solver.py  Solver for Hangman
+├── library
+│   ├── wordle.txt     A word list from Wordle; 2309 5-chars words
+│   ├── oxford3000.txt A word list from Oxford 3000; 2979 daily words
+│   └── oxford5000.txt A word list from Oxford 5000; 4954 daily words
+└── crawler.py         Crawler for oxford3000.txt and oxford5000.txt
+```
+
 ## Performance ##
 ### Wordle word list ###
 | Method | Average Fails | Death Rate | Time Consumption |
@@ -27,8 +37,8 @@ Note
 | Method | Average Fails | Death Rate | Time Consumption |
 | ------ | ------------- | ---------- | ---------------- |
 | Dumb | 11.39 | 95% | 5700 it/s |
-| Frequncy | 2.17 | 8% | 2700 it/s |
-| Unique | 2.33 | 8% | 1600 it/s |
+| Frequncy | 2.30 | 8% | 2700 it/s |
+| Unique | 2.30 | 8% | 1600 it/s |
 | Bayesian | 2.22 | 8% | 150 it/s |
 
 ### Oxford 5000
